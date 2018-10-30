@@ -4,31 +4,106 @@
   </p>
   <p>{{text}}</p>
 </div>
-#This first cml:select asks the contributor to answer “Yes” or “No” to the question “Is the text relevant?”
-<cml:select label="Текст релевантный?" class="" instructions="" id="" validates="required" gold="true” name="pелевантность_текста">
-  <cml:option label="Да" value="1" id=""></cml:option>
-  <cml:option label="Нет" value="2" id=""></cml:option>
-</cml:select>
-#Only if the contributors answer “Yes” to the first cml:select, they are shown this second cml:select, which asks them whether there is a comparison between Russia and China in the text that suggests that they are either similar or dissimilar. They must answer “Yes” or “No”.
-<cml:select label="Есть сравнение между Россией и Китаем, которое предполагает, что существует сходство или несходствo между ними?" class="" instructions="" id="" validates="required" gold="true" only-if="pелевантность_текста:[1]" name="сравнение">
-  <cml:option label="Да" value="1" id=""></cml:option>
-  <cml:option label="Нет" value="2" id=""></cml:option>
-</cml:select>
-#Only if the contributors answer “Yes” to the second cml:select, they are shown this third cml: select, which prompts them to select “China and Russia are similar” or “China and Russia are dissimilar”.
-<cml:select label="" class="" instructions="" id="" validates="required" gold="true" only-if="сравнение:[1]" name="сходствo_или_несходствo">
-  <cml:option label="Китай и Россия похожи" value="1" id=""></cml:option>
-  <cml:option label="Китай и Россия отличаются друг от друга" value="2" id=""></cml:option>
-</cml:select>
-#This fourth cml:select asks the contributors whether there is a perception in the text that China either threatens or does not threaten Russia.
-<cml:select label="Есть восприятие, что Китай угрожает или не угрожает России?" class="" instructions="" id="" validates="required" gold="true" name="угрозa">
-  <cml:option label="Да" value="1" id=""></cml:option>
-  <cml:option label="Нет" value="2" id=""></cml:option>
-</cml:select>
-#Only if the contributors answer “Yes” to the fourth cml:select, they are shown this fifth cml:select, which promts them to select “China threatens Russia” or “China does not threaten Russia”.
-<cml:select label="" class="" instructions="" id="" validates="required" gold="true" only-if="угрозa:[1]" name="угрозa2">
-  <cml:option label="Китай угрожаeт России" value="1" id=""></cml:option>
-  <cml:option label="Китай не угрожаeт России" value="2" id=""></cml:option>
-</cml:select>
-#I’d like this message to be shown only if the contributors select “Yes” for the first cml:select and “No” for the second and fourth cml:selects (These selections mean they answered that the text was relevant, but then marked that there was neither a comparison between Russia and China that suggested similarity or dissimilarity, nor a perception that China either threatens or does not threaten Russia). I would then like for them to be sent to the first cml:select, starting them over. The problem is I don’t know the codes for showing this message then looping the contributors back to the beginning. Do you know how I could do this?
-"Bы отметили, что текст релевантный. Однако, Bы отметили, что нет сравнения между Россией и Китаем, которое предполагает, что существует сходство или несходствo между ними, и Bы также отметили что нет восприятий, что Китай угрожает или не угрожает России."
-#The message above reads “You marked the text as relevant. However, you answered that there is no comparison between Russia and China that suggests they are either similar or dissimilar, and you also answered that there is no perception that China either threatens or does not threaten Russia.”
+<cml:radios label="Есть ли восприятие, что Китай угрожает или не угрожает России?" validates="required" name="threat_relevance">
+  <cml:radio label="Восприятие, что Китай угрожает России" value="threat"></cml:radio>
+  <cml:radio label="Восприятие, что Китай не угрожает России" value="threat_absence"></cml:radio>
+  <cml:radio label="Нет" value="neither"></cml:radio>
+</cml:radios>
+<cml:radios label="Какой тип угрозы?" only-if="threat_relevance:[threat]" validates="required" name="threat_type">
+  <cml:radio label="Военный" value="military"></cml:radio>
+  <cml:radio label="Экономический и / или торговой" value="economic"></cml:radio>
+  <cml:radio label="Экологический" value="ecological"></cml:radio>
+  <cml:radio label="Демографический (численность населения, рост населения, миграция и т.д.)" value="demographic"></cml:radio>
+  <cml:radio label="Проекты развития" value="development projects"></cml:radio>
+  <cml:radio label="Культурный (религия, раса, история, обычаи, язык, ценности и т.д.)" value="cultural"></cml:radio>
+  <cml:radio label="Идеологический" value="ideological"></cml:radio>
+  <cml:radio label="Право (внутреннее или международное)" value="legal"></cml:radio>
+  <cml:radio label="Цели, интересы" value="goals, interests"></cml:radio>
+  <cml:radio label="Тип режима (внутренняя структура власти)" value="regime type"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Является в текте какой тип причины того, почему Китай не угрожает России?" only-if="threat_relevance:[threat_absence]" validates="required" name="threat_absence_type">
+  <cml:radio label="Военный" value="military"></cml:radio>
+  <cml:radio label="Экономический и / или торговой" value="economic"></cml:radio>
+  <cml:radio label="Экологический" value="ecological"></cml:radio>
+  <cml:radio label="Демографический (численность населения, рост населения, миграция и т.д.)" value="demographic"></cml:radio>
+  <cml:radio label="Проекты развития" value="development projects"></cml:radio>
+  <cml:radio label="Культурный (религия, раса, история, обычаи, язык, ценности и т.д.)" value="cultural"></cml:radio>
+  <cml:radio label="Идеологический" value="ideological"></cml:radio>
+  <cml:radio label="Право (внутреннее или международное)" value="legal"></cml:radio>
+  <cml:radio label="Цели, интересы" value="goals, interests"></cml:radio>
+  <cml:radio label="Тип режима (внутренняя структура власти)" value="regime type"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Что относительно Китая обсуждается или анализируется?" only-if="threat_relevance:[neither]" validates="required" name="topic">
+  <cml:radio label="Вооруженные силы" value="military"></cml:radio>
+  <cml:radio label="Экономика и / или торговля" value="economy"></cml:radio>
+  <cml:radio label="Окружающая среда" value="environnmnet"></cml:radio>
+  <cml:radio label="Демография (численность населения, рост населения, миграция и т.д.)" value="demography"></cml:radio>
+  <cml:radio label="Проекты развития" value="development projects"></cml:radio>
+  <cml:radio label="Культура (религия, раса, история, обычаи, язык, ценности и т.д.)" value="cultural"></cml:radio>
+  <cml:radio label="Идеология" value="ideology"></cml:radio>
+  <cml:radio label="Право (внутреннее или международное)" value="legal"></cml:radio>
+  <cml:radio label="Цели, интересы" value="goals, interests"></cml:radio>
+  <cml:radio label="Тип режима (внутренняя структура власти)" value="regime type"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Какое утверждение лучше всего объясняет, почему, согласно тексту, Китай угрожает России?" only-if="threat_relevance:[threat]" validates="required" name="best_sentence_threat">
+  <cml:radio label="У Китая есть вредные намерения по отношению к России" value="harmful intentions"></cml:radio>
+  <cml:radio label="Ядерная мощь России не сдерживает Китай" value="nuclear deterrence"></cml:radio>
+  <cml:radio label="У России и Китая есть противоречивые интересы" value="conflicting interests"></cml:radio>
+  <cml:radio label="Китай не заинтересован в долгосрочном сотрудничестве с Россией, а он использует свою власть над Россией для краткосрочных выгод" value="short-term gains"></cml:radio>
+  <cml:radio label="Экономическая мощь и / или торговые практики Китая угрожает России" value="economic threat"></cml:radio>
+  <cml:radio label="У России и Китая есть противоречивые взгляды, веры, идеи, или нормы" value="conflicting views, beliefs, ideas, or norms"></cml:radio>
+  <cml:radio label="Россия и Китай идентифицируют себя как члены противостоящих групп или блоков " value="members of opposing groups or blocs"></cml:radio>
+  <cml:radio label="Китай не желает стоять с Россией, чтобы противостоять Западу" value="no opposing the West with Russia"></cml:radio>
+  <cml:radio label="Институты недостаточно, чтобы ограничить поведение Китая и / или сделать его более предсказуемым" value="institutions do not constrain behavior"></cml:radio>
+  <cml:radio label="Существует крупномасштабная иммиграция из Китая" value="large-scale immigration"></cml:radio>
+  <cml:radio label="Из-за типа режима Китая (внутренней структуры власти), более вероятно, что он навредит России" value="regime type threat"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Какое утверждение лучше всего объясняет, почему, согласно тексту, Китай не угрожает России?" only-if="threat_relevance:[threat_absence]" validates="required" name="best_sentence_threat_absence">
+  <cml:radio label="У Китая нет вредных намерений по отношению к России" value="no harmful intentions"></cml:radio>
+  <cml:radio label="Ядерная мощь России сдерживает Китай" value="nuclear deterrence"></cml:radio>
+  <cml:radio label="У России и Китая есть совместимые или бесконфликтные интересы" value="non-conflictual interests"></cml:radio>
+  <cml:radio label="Китай заинтересован в долгосрочном сотрудничестве с Россией, и действия, которые угрожают или наносят ущерб России, мешают такое сотрудничество" value="long-term gains"></cml:radio>
+  <cml:radio label="Экономическая мощь и / или торговые практики Китая - это возможность, а не угроза" value="no economic threat"></cml:radio>
+  <cml:radio label="У России и Китая есть схожие взгляды, веры, идеи, или нормы" value="similar views, beliefs, ideas, or norms"></cml:radio>
+  <cml:radio label="Россия и Китай идентифицируют себя как члены одной группы или блока" value="members of the same groups or blocs"></cml:radio>
+  <cml:radio label="Китай стоит с Россией, чтобы противостоять Западу" value="opposing the West with Russia"></cml:radio>
+  <cml:radio label="Институты достаточно, чтобы ограничить поведение Китая и / или сделать его более предсказуемым" value="institutions constrain behavior"></cml:radio>
+  <cml:radio label="Россия контролирует иммиграцию из Китая" value="controlled immigration"></cml:radio>
+  <cml:radio label="Из-за типа режима Китая (внутренней структуры власти), менее вероятно, что он навредит России" value="regime type not a threat"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Есть ли сравнение между Россией и Китаем?" validates="required" name="comparison_relevance">
+  <cml:radio label="Сравнение, которое предполагает, что Китай и Россия похожи" value="similarity"></cml:radio>
+  <cml:radio label="Сравнение, которое предполагает, что Китай и Россия отличаются друг от друга" value="dissimilarity"></cml:radio>
+  <cml:radio label="Нет" value="neither"></cml:radio>
+</cml:radios>
+<cml:radios label="Какой тип сходства?" only-if="comparison_relevance:[similarity]" validates="required" name="similarity_type">
+  <cml:radio label="Военный" value="military"></cml:radio>
+  <cml:radio label="Экономический и / или торговой" value="economic"></cml:radio>
+  <cml:radio label="Экологический" value="ecological"></cml:radio>
+  <cml:radio label="Демографический (численность населения, рост населения, миграция и т.д.)" value="demographic"></cml:radio>
+  <cml:radio label="Проекты развития" value="development projects"></cml:radio>
+  <cml:radio label="Культурный (религия, раса, история, обычаи, язык, ценности и т.д.)" value="cultural"></cml:radio>
+  <cml:radio label="Идеологический" value="ideological"></cml:radio>
+  <cml:radio label="Право (внутреннее или международное)" value="legal"></cml:radio>
+  <cml:radio label="Цели, интересы" value="goals, interests"></cml:radio>
+  <cml:radio label="Тип режима (внутренняя структура власти)" value="regime type"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
+<cml:radios label="Какой тип несходства?" only-if="comparison_relevance:[dissimilarity]" validates="required" name="dissimilarity_type">
+  <cml:radio label="Военный" value="military"></cml:radio>
+  <cml:radio label="Экономический и / или торговой" value="economic"></cml:radio>
+  <cml:radio label="Экологический" value="ecological"></cml:radio>
+  <cml:radio label="Демографический (численность населения, рост населения, миграция и т.д.)" value="demographic"></cml:radio>
+  <cml:radio label="Проекты развития" value="development projects"></cml:radio>
+  <cml:radio label="Культурный (религия, раса, история, обычаи, язык, ценности и т.д.)" value="cultural"></cml:radio>
+  <cml:radio label="Идеологический" value="ideological"></cml:radio>
+  <cml:radio label="Право (внутреннее или международное)" value="legal"></cml:radio>
+  <cml:radio label="Цели, интересы" value="goals, interests"></cml:radio>
+  <cml:radio label="Тип режима (внутренняя структура власти)" value="regime type"></cml:radio>
+  <cml:radio label="Ничего из вышеперечисленного" value="none of the above"></cml:radio>
+</cml:radios>
